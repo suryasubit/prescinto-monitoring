@@ -1,0 +1,4 @@
+- name: Installing required helm repos
+  hosts: localhost
+  roles:
+    - ./role/add-repo

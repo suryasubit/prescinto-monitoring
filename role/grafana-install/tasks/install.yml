@@ -1,0 +1,8 @@
+- name: Deploy Grafana chart on 5.0.12 with values loaded from template
+  kubernetes.core.helm:
+    name: grafana
+    release_namespace: monitoring
+    create_namespace: true
+    chart_ref: grafana/grafana
+    chart_version: 6.32.6
+    values: "{{ lookup('template', 'somefile.yaml') | from_yaml }}"

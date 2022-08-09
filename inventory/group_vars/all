@@ -1,0 +1,27 @@
+chart_versions:
+  cert-manager: 
+
+
+grafana:
+  replicas: 1
+  imageRepo: grafana/grafana
+  imageTag: 8.5.3
+  svcType: ClusterIP
+  ingressEnabled: true
+  ingressHost: http://engg.monitoring.prescinto.ai
+  cpuLimit: 1
+  memoryLimit: 255Mi
+  cpuRequest: 100m
+  memoryRequest: 128Mi
+  persistenceEnabled: true
+  persistenceSize: 5Gi
+  storageClassName: default
+  adminUser: admin
+  adminPassword: Nexa#123
+  smtpEnabled: true
+  smtpHost: smtp.gmail.com:587
+  smtpUser: <username>
+  smtpPassword: <password>
+  smtpSkipVerify: true
+  smtpFromAddress: <emailid>
+  smtpFromName: GrafanaAlerts
