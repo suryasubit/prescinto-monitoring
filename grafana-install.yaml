@@ -1,0 +1,5 @@
+- name: Playbook installing Grafana
+  hosts: localhost
+
+  roles:
+    - ./role/grafana-install

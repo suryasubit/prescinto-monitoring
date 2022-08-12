@@ -1,0 +1,6 @@
+- name: Uninstall Grafana
+  kubernetes.core.helm:
+    release_name: "{{ grafana.releaseName }}"
+    release_state: absent
+    release_namespace: "{{ namespaceName }}"
+    wait: true

@@ -1,27 +1,26 @@
-chart_versions:
-  cert-manager: 
-
+namespaceName: monitoring
 
 grafana:
-  replicas: 1
+  repoUrl: https://grafana.github.io/helm-charts
+  repoName: grafana
+
+  chartName: grafana/grafana
+  chartVersion: 6.32.6
+
+  releaseName: grafana
+  replicas: 2
   imageRepo: grafana/grafana
   imageTag: 8.5.3
-  svcType: ClusterIP
-  ingressEnabled: true
-  ingressHost: http://engg.monitoring.prescinto.ai
-  cpuLimit: 1
-  memoryLimit: 255Mi
-  cpuRequest: 100m
-  memoryRequest: 128Mi
-  persistenceEnabled: true
-  persistenceSize: 5Gi
-  storageClassName: default
-  adminUser: admin
-  adminPassword: Nexa#123
-  smtpEnabled: true
+  svcType: NodePort
+  svcNodeport: 32001  # if svcType=NodePort
+
+  ingressEnabled: false
+  ingressHost: example.com
+
+  smtpEnabled: false
   smtpHost: smtp.gmail.com:587
-  smtpUser: <username>
-  smtpPassword: <password>
+  smtpUser: username
+  smtpPassword: password
   smtpSkipVerify: true
-  smtpFromAddress: <emailid>
+  smtpFromAddress: emailid@email.com
   smtpFromName: GrafanaAlerts

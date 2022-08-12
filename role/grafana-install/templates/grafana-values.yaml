@@ -22,7 +22,7 @@ serviceAccount:
 #    eks.amazonaws.com/role-arn: arn:aws:iam::123456789000:role/iam-role-name-here
   autoMount: true
 
-replicas: 1
+replicas: {{ grafana.replicas }}
 
 ## Create a headless service for the deployment
 headlessService: false
@@ -73,8 +73,8 @@ livenessProbe:
 # schedulerName: "default-scheduler"
 
 image:
-  repository: grafana/grafana
-  tag: 8.5.3
+  repository: {{ grafana.imageRepo }}
+  tag: {{ grafana.imageTag }}
   sha: ""
   pullPolicy: IfNotPresent
 
@@ -149,11 +149,12 @@ podPortName: grafana
 ## ref: http://kubernetes.io/docs/user-guide/services/
 ##
 service:
-  enabled: true
-  type: ClusterIP
+  enabled: true 
+  type: {{ grafana.svcType }}
   port: 80
   targetPort: 3000
-  #  nodePort: 32001
+ 
+
     # targetPort: 4181 To be used with a proxy extraContainer
   annotations: {}
   labels: {}
@@ -186,7 +187,7 @@ hostAliases: []
   #     - "my.host.com"
 
 ingress:
-  enabled: false
+  enabled: {{ grafana.ingressEnabled }}
   # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
   # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
   # ingressClassName: nginx
@@ -201,7 +202,7 @@ ingress:
   pathType: Prefix
 
   hosts:
-    - chart-example.local
+    - {{ grafana.ingressHost }}
   ## Extra paths to prepend to every host configuration. This is useful when working with annotation based services.
   extraPaths: []
   # - path: /*
@@ -590,13 +591,13 @@ grafana.ini:
   feature_toggles:
     enable: tempoSearch tempoBackendSearch
   smtp:
-    enable: true
-    host: smtp.gmail.com:587
-    user: <Username/email>
-    password: <Password>
-    skip_verify: true
-    from_address: <emailid>
-    from_name: GrafanaAlerts
+    enable: {{ grafana.smtpEnabled }}
+    host: {{ grafana.smtpHost }}
+    user: {{ grafana.smtpUser }}
+    password: {{ grafana.smtpPassword }}
+    skip_verify: {{ grafana.smtpSkipVerify }}
+    from_address: {{ grafana.smtpFromAddress }}
+    from_name: {{ grafana.smtpFromName }}
 ## grafana Authentication can be enabled with the following values on grafana.ini
  # server:
       # The full public facing url you use in browser, used for redirects and emails
