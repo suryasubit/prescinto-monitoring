@@ -1,0 +1,5 @@
+- name: Playbook Un-installing prometheus
+  hosts: local
+
+  roles:
+    - ./role/prometheus-uninstall

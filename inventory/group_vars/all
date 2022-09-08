@@ -24,3 +24,27 @@ grafana:
   smtpSkipVerify: true
   smtpFromAddress: emailid@email.com
   smtpFromName: GrafanaAlerts
+
+
+prometheus:
+  chartRepoUrl: https://prometheus-community.github.io/helm-charts 
+  chartRepoName: prometheus-community
+
+  chartName: prometheus-community/prometheus
+  chartVersion: 15.9.0
+
+  releaseName: prometheus
+  replicas: 1
+  imageRepo: quay.io/prometheus/prometheus
+  imageTag: v2.34.0
+  svcType: ClusterIP
+
+  cpuLimit: 2
+  memoryLimit: 4Gi
+  cpuRequest: 500m
+  memoryRequest: 512Mi
+
+  persistentVolumeEnabled: true
+  size: 8Gi
+  nodeExporterEnabled: true
+  kubeStatemetricsEnabled: true

@@ -1,0 +1,6 @@
+- name: Uninstall Prometheus
+  kubernetes.core.helm:
+    release_name: "{{ prometheus.releaseName }}"
+    release_state: absent
+    release_namespace: "{{ namespaceName }}"
+    wait: true
