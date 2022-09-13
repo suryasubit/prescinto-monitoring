@@ -1,6 +1,6 @@
 image:
-  repository: grafana/loki
-  tag: 2.5.0
+  repository: {{ loki.imageRepo }}
+  tag: {{ loki.imageTag }}
   pullPolicy: IfNotPresent
 
   ## Optionally specify an array of imagePullSecrets.
@@ -143,10 +143,10 @@ nodeSelector: {}
 ## - create a pv which above 10Gi and has same namespace with loki
 ## - keep storageClassName same with below setting
 persistence:
-  enabled: true
+  enabled: {{ loki.persistenceEnabled }}
   accessModes:
   - ReadWriteOnce
-  size: 10Gi
+  size: {{ loki.size }}
   annotations: {}
   # selector:
   #   matchLabels:
@@ -181,11 +181,11 @@ replicas: 1
 
 resources:
 limits:
-  cpu: 1
-  memory: 256Mi
+  cpu: {{ loki.cpuLimit }}
+  memory: {{ loki.memoryLimit }}
 requests:
-  cpu: 100m
-  memory: 128Mi
+  cpu: {{ loki.cpuRequest }}
+  memory: {{ loki.memoryRequest }}
 
 securityContext:
   fsGroup: 10001
@@ -194,7 +194,7 @@ securityContext:
   runAsUser: 10001
 
 service:
-  type: ClusterIP
+  type: {{ loki.svcType }}
   # nodePort: 32003
   port: 3100
   annotations:

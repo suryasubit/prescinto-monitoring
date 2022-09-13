@@ -1,0 +1,14 @@
+- name: Adding loki helm repo
+  kubernetes.core.helm_repository:
+    repo_name: "{{ grafana.repoName }}"
+    repo_url: "{{ grafana.repoUrl}}"
+
+- name: "Deploy loki chart {{ loki.chartVersion }}  with values loaded from template"
+  kubernetes.core.helm:
+    name: "{{ loki.releaseName }}"
+    release_namespace: "{{ namespaceName }}"
+    create_namespace: true
+    update_repo_cache: True
+    chart_ref: "{{ loki.chartName }}"
+    chart_version: "{{ loki.chartVersion }}"
+    values: "{{ lookup('template', 'loki-values.yaml') | from_yaml }}"
