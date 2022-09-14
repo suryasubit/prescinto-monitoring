@@ -64,5 +64,29 @@ loki:
   memoryRequest: 128Mi
 
 otelOperator:
+  releaseName: otel-operator
+  chartRepoUrl: https://open-telemetry.github.io/opentelemetry-helm-charts
+  chartRepoName: open-telemetry
 
+  chartName: open-telemetry/opentelemetry-operator
+  chartVersion: 0.7.0
+
+  replicas: 1
+
+  imageRepo: ghcr.io/open-telemetry/opentelemetry-operator/opentelemetry-operator
+  imageTag: v0.51.0
+  cpuLimit: 100m
+  memoryLimit: 128Mi
+  cpuRequest: 100m
+  memoryRequest: 64Mi
+
+  kubeRBACProxy:
+    imageRepo: gcr.io/kubebuilder/kube-rbac-proxy
+    imageTag: v0.8.0
+    
+    cpuLimit: 500m
+    memoryLimit: 128Mi
+    cpuRequest: 5m
+    memoryRequest: 64Mi
+  certManagerEnabled: true
 tempo:
