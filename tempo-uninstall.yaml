@@ -1,0 +1,5 @@
+- name: Playbook Un-installing tempo
+  hosts: local
+
+  roles:
+    - ./role/tempo-uninstall

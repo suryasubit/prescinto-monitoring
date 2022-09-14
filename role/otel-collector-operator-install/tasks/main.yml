@@ -1,2 +1,3 @@
 ---
 # tasks file for otel-collector-operator-install
+- include_tasks: install.yml

@@ -1,0 +1,5 @@
+- name: Playbook Un-installing loki
+  hosts: local
+
+  roles:
+    - ./role/loki-uninstall

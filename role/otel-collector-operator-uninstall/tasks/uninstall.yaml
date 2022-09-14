@@ -1,0 +1,6 @@
+- name: Uninstall otel-operator 
+  kubernetes.core.helm:
+    release_name: "{{ otelOperator.releaseName }}"
+    release_state: absent
+    release_namespace: "{{ namespaceName }}"
+    wait: true

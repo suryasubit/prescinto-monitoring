@@ -6,8 +6,8 @@ fullnameOverride: ""
 
 replicas: 1
 tempo:
-  repository: grafana/tempo
-  tag: 1.4.1
+  repository: {{ tempo.imageRepo }}
+  tag: {{ tempo.imageTag }}
   pullPolicy: IfNotPresent
   ## Optionally specify an array of imagePullSecrets.
   ## Secrets must be manually created in the namespace.
@@ -111,8 +111,8 @@ config: |
       {{- toYaml .Values.tempo.global_overrides | nindent 6 }}
 
 tempoQuery:
-  repository: grafana/tempo-query
-  tag: 1.4.1
+  repository: {{ tempo.tempoQuery.imageRepo }}
+  tag: {{ tempo.tempoQuery.imageTag }}
   pullPolicy: IfNotPresent
   ## Optionally specify an array of imagePullSecrets.
   ## Secrets must be manually created in the namespace.
@@ -143,7 +143,7 @@ serviceAccount:
   annotations: {}
 
 service:
-  type: ClusterIP
+  type: {{ tempo.svcType }}
   annotations:
     service.beta.kubernetes.io/azure-load-balancer-internal: "true"
   labels: {}
@@ -156,11 +156,11 @@ serviceMonitor:
   # scrapeTimeout: 10s
 
 persistence:
-  enabled: true
+  enabled: {{ tempo.persistenceEnabled }}
   # storageClassName: local-path
   accessModes:
     - ReadWriteOnce
-  size: 10Gi
+  size: {{ tempo.size }}
 
 ## Pod Annotations
 podAnnotations: {}

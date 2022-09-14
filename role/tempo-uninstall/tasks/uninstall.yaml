@@ -1,0 +1,6 @@
+- name: Uninstall tempo helm chart
+  kubernetes.core.helm:
+    release_name: "{{ tempo.releaseName }}"
+    release_state: absent
+    release_namespace: "{{ namespaceName }}"
+    wait: true

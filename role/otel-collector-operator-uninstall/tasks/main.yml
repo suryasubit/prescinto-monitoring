@@ -1,2 +1,3 @@
 ---
 # tasks file for otel-collector-operator-uninstall
+- include_tasks: uninstall.yaml

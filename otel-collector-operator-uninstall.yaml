@@ -1,0 +1,5 @@
+- name: Playbook Un-installing otel-collector operator
+  hosts: local
+
+  roles:
+    - ./role/otel-collector-operator-uninstall

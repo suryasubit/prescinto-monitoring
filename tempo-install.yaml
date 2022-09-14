@@ -1,0 +1,5 @@
+- name: Playbook installing grafana tempo
+  hosts: local
+
+  roles:
+    - ./role/tempo-install

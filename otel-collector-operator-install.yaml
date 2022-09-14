@@ -1,0 +1,5 @@
+- name: Playbook installing otel-collector-operator
+  hosts: local
+
+  roles:
+    - ./role/otel-collector-operator-install

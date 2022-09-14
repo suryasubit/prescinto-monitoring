@@ -1,8 +1,8 @@
 namespaceName: monitoring
 
 grafana:
-  repoUrl: https://grafana.github.io/helm-charts
-  repoName: grafana
+  chartRepoUrl: https://grafana.github.io/helm-charts
+  chartRepoName: grafana
 
   chartName: grafana/grafana
   chartVersion: 6.32.6
@@ -90,3 +90,16 @@ otelOperator:
     memoryRequest: 64Mi
   certManagerEnabled: true
 tempo:
+  releaseName: tempo
+
+  chartName: grafana/tempo
+  chartVersion: 0.15.3
+  imageRepo: grafana/tempo
+  imageTag: 1.4.1
+  svcType: ClusterIP
+  persistenceEnabled: true
+  size: 10Gi
+  
+  tempoQuery:
+    imageRepo: grafana/tempo-query
+    imageTag: 1.4.1

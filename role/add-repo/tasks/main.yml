@@ -12,7 +12,7 @@
 
 - name: Add open-telemetry collector chart repo
   kubernetes.core.helm_repository:
-    name: prometheus-community
+    name: open-telemetry
     repo_url: "https://prometheus-community.github.io/helm-charts"
 
 - name: Add cert-manager chart repo
