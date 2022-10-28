@@ -5,13 +5,13 @@ grafana:
   chartRepoName: grafana
 
   chartName: grafana/grafana
-  chartVersion: 6.32.6
+  chartVersion: 6.40.0
 
   releaseName: grafana
   replicas: 2
   imageRepo: grafana/grafana
   imageTag: 8.5.3
-  svcType: NodePort
+  svcType: NodePort 
   svcNodeport: 32001  # if svcType=NodePort
 
   ingressEnabled: false
@@ -31,7 +31,7 @@ prometheus:
   chartRepoName: prometheus-community
 
   chartName: prometheus-community/prometheus
-  chartVersion: 15.9.0
+  chartVersion: 15.14.0
 
   releaseName: prometheus
   replicas: 1
@@ -51,8 +51,8 @@ prometheus:
 
 loki:
   releaseName: loki
-  chartname: grafana/loki
-  chartVersion: 2.11.1
+  chartName: grafana/loki
+  chartVersion: 3.2.0
   imageRepo: grafana/loki
   imageTag: 2.5.0
   persistenceEnabled: true
@@ -64,17 +64,17 @@ loki:
   memoryRequest: 128Mi
 
 otelOperator:
-  releaseName: otel-operator
+  releaseName: opentelemetry-operator
   chartRepoUrl: https://open-telemetry.github.io/opentelemetry-helm-charts
   chartRepoName: open-telemetry
 
   chartName: open-telemetry/opentelemetry-operator
-  chartVersion: 0.7.0
+  chartVersion: 0.13.0
 
   replicas: 1
 
   imageRepo: ghcr.io/open-telemetry/opentelemetry-operator/opentelemetry-operator
-  imageTag: v0.51.0
+  imageTag: v0.60.0
   cpuLimit: 100m
   memoryLimit: 128Mi
   cpuRequest: 100m
@@ -82,7 +82,7 @@ otelOperator:
 
   kubeRBACProxy:
     imageRepo: gcr.io/kubebuilder/kube-rbac-proxy
-    imageTag: v0.8.0
+    imageTag: v0.11.0
     
     cpuLimit: 500m
     memoryLimit: 128Mi

@@ -194,8 +194,7 @@ securityContext:
   runAsUser: 10001
 
 service:
-  type: "{{ loki.svcType }}"
-  # nodePort: 32003
+  type: ClusterIP
   port: 3100
   annotations:
     service.beta.kubernetes.io/azure-load-balancer-internal: "true"

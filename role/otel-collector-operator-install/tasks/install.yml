@@ -11,4 +11,6 @@
     update_repo_cache: True
     chart_ref: "{{ otelOperator.chartName }}"
     chart_version: "{{ otelOperator.chartVersion }}"
-    values: "{{ lookup('template', 'otel-collector-opt-values.yaml') | from_yaml }}"
+#    values: "{{ lookup('template', 'otel-collector-opt-values.yaml') | from_yaml }}"
+    values_files:
+      - "{{ role_path }}/files/otel-collector-opt-values.yaml"    

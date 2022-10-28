@@ -1,7 +1,7 @@
 - name: Adding grafana helm repo
   kubernetes.core.helm_repository:
-    repo_name: "{{ grafana.repoName }}"
-    repo_url: "{{ grafana.repoUrl}}"
+    repo_name: "{{ grafana.chartRepoName }}"
+    repo_url: "{{ grafana.chartRepoUrl}}"
 
 - name: "Deploy Grafana chart {{ grafana.chartVersion }}  with values loaded from template"
   kubernetes.core.helm:
@@ -12,3 +12,5 @@
     chart_ref: "{{ grafana.chartName }}"
     chart_version: "{{ grafana.chartVersion }}"
     values: "{{ lookup('template', 'grafana-values.yaml') | from_yaml }}"
+#    values_files:
+#      - "{{ role_path }}/files/grafana-values.yaml"

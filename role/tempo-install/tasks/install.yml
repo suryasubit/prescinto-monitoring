@@ -7,3 +7,5 @@
     chart_ref: "{{ tempo.chartName }}"
     chart_version: "{{ tempo.chartVersion }}"
     values: "{{ lookup('template', 'tempo-values.yaml') | from_yaml }}"
+    # values_files:
+    #   - "{{ role_path }}/templates/tempo-values.yaml"
