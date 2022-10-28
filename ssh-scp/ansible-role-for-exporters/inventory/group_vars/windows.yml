@@ -1,0 +1,17 @@
+# Variables used in Playbook
+win_main_dir: "D:"
+win_exporter_dir_name: exporters
+wmi_exporter_version: 0.18.1
+
+
+win_promtail_version: 2.5.0
+win_promtail_port: 9080
+win_promtail_position_file_name: "positions.yaml"
+
+win_promtail_log_out: "promtail.log"
+win_promtail_log_err: "promtail-err.log"
+win_system_log_path: "C:/Windows/System32/winevt/Logs"
+
+
+wmi_exporter_enabled_collectors: cs,os,logical_disk,system,cpu,net,process,tcp,smtp,time,memory,iis,service
+service1: cormatix

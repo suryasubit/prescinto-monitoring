@@ -1,0 +1,4 @@
+---
+# tasks file for install-process-exporter
+
+- include_tasks: install.yaml

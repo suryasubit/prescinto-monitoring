@@ -1,0 +1,33 @@
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: collector-ds
+spec:
+  mode: daemonset # This configuration is omittable.
+  config: |
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+          http:
+      jaeger:     
+        protocols:
+          grpc:
+          thrift_http:
+          thrift_binary:
+          thrift_compact:
+    processors:
+
+    exporters:
+      logging:
+      otlp:
+        endpoint: tempo:4317
+        tls:
+          insecure: true
+
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp,jaeger]
+          processors: []
+          exporters: [logging, otlp]

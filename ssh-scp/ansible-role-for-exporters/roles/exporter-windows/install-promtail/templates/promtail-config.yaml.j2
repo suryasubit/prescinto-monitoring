@@ -1,0 +1,19 @@
+#This is promtail-local-config.yaml
+server:
+  http_listen_port: {{ win_promtail_port }}
+  grpc_listen_port: 0
+
+positions:
+  filename: {{ win_main_dir }}\{{ win_exporter_dir_name }}\{{ win_promtail_position_file_name }}
+
+clients:
+  - url: http://{{ loki_ip }}:{{ loki_port }}/loki/api/v1/push
+
+scrape_configs:
+  - job_name: system_logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: windows_system_log
+          __path__: {{ win_system_log_path }}/*

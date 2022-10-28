@@ -1,0 +1,10 @@
+- name: Stop process-exporter service
+  service:
+    name: process-exporter
+    state: stopped
+
+- name: Remove "process-exporter" package
+  apt:
+    name: process-exporter
+    state: absent
+    autoremove: yes

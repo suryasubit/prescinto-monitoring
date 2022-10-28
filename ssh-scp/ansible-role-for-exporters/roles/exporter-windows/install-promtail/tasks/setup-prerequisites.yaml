@@ -1,0 +1,4 @@
+- name: Install nssm
+  win_chocolatey:
+    name: nssm
+    state: present

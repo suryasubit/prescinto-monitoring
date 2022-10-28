@@ -1,0 +1,3 @@
+---
+# tasks file for uninstall-process-exporter
+- include_tasks: uninstall.yaml

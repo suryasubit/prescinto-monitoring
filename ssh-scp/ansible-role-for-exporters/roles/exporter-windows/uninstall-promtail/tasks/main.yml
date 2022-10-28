@@ -1,0 +1,7 @@
+---
+# tasks file for uninstall-promtail
+
+- name: Un-Install the promtail service with a list of parameters
+  win_nssm:
+    name: promtail
+    state: absent

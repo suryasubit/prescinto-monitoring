@@ -1,0 +1,5 @@
+# Playbook to uninstall wmi_exporter
+- name: "Uninstall wmi_exporter-{{ wmi_exporter_version }}"
+  win_package:
+    path: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}\\windows_exporter-{{ wmi_exporter_version }}-386.msi"
+    state: absent

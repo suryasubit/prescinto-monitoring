@@ -1,0 +1,28 @@
+---
+# tasks file for uninstall
+
+- name: Stop promtail.service
+  systemd:
+    name: promtail
+    state: stopped
+
+- name: "Remove service file {{ service_file_directory }}/{{ promtail_service_file_name }}"
+  file:
+    path: "{{ service_file_directory }}/{{ promtail_service_file_name }}"
+    state: absent
+
+
+- name: "Remove config file {{ system_bin_dir }}/{{ promtail_config_file_name }}"
+  file:
+    path: "{{ system_bin_dir }}/{{ promtail_config_file_name }}"
+    state: absent
+
+
+- name: "Remove binary from {{ system_bin_dir }}/promtail"
+  file:
+    path: "{{ system_bin_dir }}/promtail"
+    state: absent
+
+- name: Daemon re-load
+  systemd:
+    daemon_reload: yes

@@ -1,0 +1,55 @@
+- name: Installing unzip
+  become: yes
+  apt:
+    name: unzip
+    state: present
+    
+
+- name: "Creating directory {{ home }}/{{ exporter_dir_name }}"
+  file:
+    path: "{{ home }}/{{ exporter_dir_name }}"
+    state: directory
+#
+- name: Downloading promtail {{ promtail_version }}
+  get_url:
+    dest: "{{ home }}/{{ exporter_dir_name }}/"
+    url: "https://github.com/grafana/loki/releases/download/v{{ promtail_version }}/promtail-linux-amd64.zip"
+
+# Note: Require unzip on the remote server
+- name: Unarchive promtail
+  ansible.builtin.unarchive:
+    src: "{{ home }}/{{ exporter_dir_name }}/promtail-linux-amd64.zip"
+    dest: "{{ home }}/{{ exporter_dir_name }}/"
+    remote_src: yes
+#
+- name: "Copy binary to {{ system_bin_dir }}"
+  become: yes
+  copy:
+    src: "{{ home }}/{{ exporter_dir_name }}/promtail-linux-amd64"
+    dest: "{{ system_bin_dir }}/promtail"
+    remote_src: yes
+    mode: 0755
+#
+- name: "Copy config file to {{ system_bin_dir}}/{{ promtail_config_file_name }} location"
+  become: yes
+  template:
+    src: promtail.config.j2
+    dest: "{{ system_bin_dir}}/{{ promtail_config_file_name }}"
+    mode: 0644
+
+#
+- name: Create systemd service unit
+  become: yes
+  template:
+    src: promtail.service.j2
+    dest: "{{ service_file_directory }}{{ promtail_service_file_name }}"
+    mode: 0644
+
+#
+- name: Start promtail service
+  become: yes
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    state: started
+    name: promtail.service

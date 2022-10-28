@@ -1,0 +1,4 @@
+---
+# tasks file for uninstall-node-exporter
+
+- include_tasks: uninstall.yaml

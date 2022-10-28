@@ -1,0 +1,26 @@
+
+# Global variables
+home: /home/prescintouser
+system_bin_dir: /usr/local/bin/
+service_file_directory: /etc/systemd/system/
+exporter_dir_name: exporters
+
+# Node exporter variables
+node_exporter_version: 1.3.1
+node_exporter_user: root
+node_exporter_group: root
+node_exporter_svc_file_name: node_exporter.service
+
+# Promtail variables
+promtail_dir_name: promtail
+promtail_version: 2.5.0
+promtail_user: root
+promtail_group: root
+promtail_port: 9080
+
+promtail_config_file_name: promtail_config.yaml
+promtail_service_file_name: promtail.service
+
+
+# Process exporter Variables
+process_exporter_version: 0.7.10

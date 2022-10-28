@@ -1,0 +1,13 @@
+- name: "Creating directory {{ home }}/{{ exporter_dir_name }}"
+  file:
+    path: "{{ home }}/{{ exporter_dir_name }}"
+    state: directory
+
+- name: Download process-exporter {{ process_exporter_version }}
+  get_url:
+    url: "https://github.com/ncabatoff/process-exporter/releases/download/v{{ process_exporter_version }}/process-exporter_{{ process_exporter_version }}_linux_amd64.deb"
+    dest: "{{ home }}/{{ exporter_dir_name }}"
+- name: Install process-exporter {{ process_exporter_version }}
+  become: yes
+  apt:
+    deb: "{{ home }}/{{ exporter_dir_name }}/process-exporter_{{ process_exporter_version }}_linux_amd64.deb"

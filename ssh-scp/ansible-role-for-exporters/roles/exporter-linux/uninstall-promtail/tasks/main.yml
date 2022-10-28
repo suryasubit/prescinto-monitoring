@@ -1,0 +1,4 @@
+---
+# tasks file for uninstall-promtail
+
+- include_tasks: uninstall.yaml

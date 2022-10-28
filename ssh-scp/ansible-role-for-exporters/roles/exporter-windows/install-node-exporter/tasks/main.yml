@@ -1,0 +1,4 @@
+---
+# tasks file for install-node-exporter
+
+- include_tasks: install.yaml

@@ -1,0 +1,21 @@
+---
+# tasks file for uninstall
+
+- name: Stop node_exporter.service
+  systemd:
+    name: node_exporter
+    state: stopped
+
+- name: "Remove service file {{ service_file_directory }}{{ node_exporter_svc_file_name }}"
+  file:
+    path: "{{ service_file_directory }}{{ node_exporter_svc_file_name }}"
+    state: absent
+
+- name: Daemon re-load
+  systemd:
+    daemon_reload: yes
+
+- name: "Remove binary from {{ system_bin_dir }}"
+  file:
+    path: "{{ system_bin_dir }}/node_exporter"
+    state: absent

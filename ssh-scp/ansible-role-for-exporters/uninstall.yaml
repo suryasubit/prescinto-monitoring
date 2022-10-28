@@ -1,0 +1,15 @@
+---
+
+- name: Playbook to un-install all exporters
+  hosts: linux
+  become: yes
+  roles:
+    - roles/exporter-linux/uninstall-node-exporter
+    - roles/exporter-linux/uninstall-promtail
+    - roles/exporter-linux/uninstall-process-exporter
+
+- name: Playbook to un-install exporters from windows
+  hosts: windows
+  roles:
+    - roles/exporter-windows/uninstall-node-exporter
+    - roles/exporter-windows/uninstall-promtail

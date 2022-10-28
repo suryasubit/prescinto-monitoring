@@ -1,0 +1,16 @@
+---
+# prerequisites:
+  # 1. Install unzip on all the remote servers.
+
+- name: "Playbook to install node-exporter {{ node_exporter_version }} and Promtail on Linux VM"
+  hosts: linux
+  roles:
+    - roles/exporter-linux/install-node-exporter
+    - roles/exporter-linux/install-promtail
+    - roles/exporter-linux/install-process-exporter
+
+- name: Playbook to install wmi-exporter and Promtail on Windows VM
+  hosts: windows
+  roles:
+    - roles/exporter-windows/install-node-exporter
+    - roles/exporter-windows/install-promtail

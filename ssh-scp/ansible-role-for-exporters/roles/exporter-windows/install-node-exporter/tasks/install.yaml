@@ -1,0 +1,37 @@
+# This file solely responsible for installation of wmi-exporter on windows machine.
+# Following link is used as a reference: https://fitdevops.in/monitoring-windows-servers-using-wmi-exporter-prometheus/
+# prerequisites: install winrm on windows hosts
+# install "ansible-galaxy collection install ansible.windows" on ansible controller
+
+- name: "Create directory {{ win_main_dir }}\\{{ win_exporter_dir_name }}"
+  win_file:
+    path: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}"
+    state: directory
+
+
+- name: "Download wmi-exporter-{{ wmi_exporter_version }} at {{ win_main_dir }}\\{{ win_exporter_dir_name }}\\"
+  win_get_url:
+    url: "https://github.com/prometheus-community/windows_exporter/releases/download/v{{ wmi_exporter_version }}/windows_exporter-{{ wmi_exporter_version }}-386.msi"
+    dest: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}\\windows_exporter-{{ wmi_exporter_version }}-386.msi"
+
+
+- name: "Install {{ win_main_dir }}\\{{ win_exporter_dir_name }}\\windows_exporter-{{ wmi_exporter_version }}-386.msi"
+  win_package:
+    path: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}\\windows_exporter-{{ wmi_exporter_version }}-386.msi"
+    state: present
+    arguments:
+      - 'ENABLED_COLLECTORS={{ wmi_exporter_enabled_collectors }}'
+      - --collector.service.services-where="Name='{{ service1 }}'"
+
+
+- name: Set start type of windows_exporter service
+  win_service:
+    name: windows_exporter
+    start_mode: delayed
+
+
+# # set service type to delayed
+# - name: Restart a service
+#   win_service:
+#     name: windows_exporter
+#     state: started

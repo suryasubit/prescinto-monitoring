@@ -1,0 +1,39 @@
+
+- name: "Creating directory {{ home }}/{{ exporter_dir_name }}"
+  file:
+    path: "{{ home }}/{{ exporter_dir_name }}"
+    state: directory
+#
+# - name: Downloading node-exporter {{ node_exporter_version }}
+#   get_url:
+#     dest: "{{ home }}/{{ exporter_dir_name }}/"
+#     url: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+
+- name: Downloading and unarchive node-exporter tar file
+  ansible.builtin.unarchive:
+    src: "https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz"
+    dest: "{{ home }}/{{ exporter_dir_name }}/"
+    remote_src: yes
+
+- name: "Copy binary to {{ system_bin_dir }}"
+  become: yes
+  copy:
+    src: "{{ home }}/{{ exporter_dir_name }}/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter"
+    dest: "{{ system_bin_dir }}/node_exporter"
+    remote_src: yes
+    mode: 0755
+
+- name: "Create systemd service unit {{ service_file_directory }}{{ node_exporter_svc_file_name }}"
+  become: yes
+  template:
+    src: node-exporter.service.j2
+    dest: "{{ service_file_directory }}{{ node_exporter_svc_file_name }}"
+    mode: 0644
+
+- name: configure systemd to use service
+  become: yes
+  systemd:
+    daemon_reload: yes
+    enabled: yes
+    state: started
+    name: node_exporter.service

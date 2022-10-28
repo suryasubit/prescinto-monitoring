@@ -1,0 +1,5 @@
+---
+# tasks file for install-promtail
+
+- include_tasks: setup-prerequisites.yaml
+- include_tasks: install.yaml

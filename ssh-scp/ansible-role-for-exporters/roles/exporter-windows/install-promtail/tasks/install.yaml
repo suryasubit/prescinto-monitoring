@@ -1,0 +1,70 @@
+- name: "Create directory {{ win_main_dir }}\\{{ win_exporter_dir_name }}"
+  ansible.windows.win_file:
+    path: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}"
+    state: directory
+
+- name: "Download promtail at {{ win_main_dir }}\\{{ win_exporter_dir_name }}\\"
+  win_get_url:
+    url: "https://github.com/grafana/loki/releases/download/v{{ win_promtail_version }}/promtail-windows-386.exe.zip"
+    dest: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}\\promtail-windows-386.exe.zip"
+
+
+- name: "Unzip the file {{ win_main_dir }}\\{{ win_exporter_dir_name }}\\promtail-windows-386.exe.zip"
+  win_unzip:
+    src: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}\\promtail-windows-386.exe.zip"
+    dest: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}\\"
+    delete_archive: yes
+
+- name: "Copy promtail config file at {{ win_main_dir }}\\{{ win_exporter_dir_name }}\\promtail-windows-386.exe/promtail-config.yaml"
+  win_template:
+    src: promtail-config.yaml.j2
+    dest: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}\\promtail-config.yaml"
+
+- name: Create position file for promtail
+  win_file:
+    path: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}\\{{ win_promtail_position_file_name }}"
+    state: touch
+
+- name: "Create file {{ win_promtail_log_out }}"
+  ansible.windows.win_file:
+    path: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}\\{{ win_promtail_log_out }}"
+    state: touch
+
+
+- name: "Create file {{ win_promtail_log_err }}"
+  ansible.windows.win_file:
+    path: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}\\{{ win_promtail_log_err }}"
+    state: touch
+
+- name: Install the promtail service with a list of parameters
+  win_nssm:
+    name: promtail
+    application: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}\\promtail-windows-386.exe"
+    arguments:
+      - "--config.file={{ win_main_dir }}\\{{ win_exporter_dir_name }}\\promtail-config.yaml"
+    stdout_file: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}\\{{ win_promtail_log_out }}"
+    stderr_file: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}\\{{ win_promtail_log_err }}"
+
+
+- name: Set service startup mode to auto and ensure it is started
+  win_service:
+    name: promtail
+    start_mode: auto
+    state: started
+
+# - name: Executing promtail
+#   win_package:
+#     path: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}\\promtail-windows-386.exe"
+#     arguments: "--config.file={{ win_main_dir }}\\{{ win_exporter_dir_name }}\\promtail-config.yaml"
+#     product_id: none
+
+
+# - name: Executing promtail
+#   win_psexec:
+#     command: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}\\promtail-windows-386.exe --config.file={{ win_main_dir }}\\{{ win_exporter_dir_name }}\\promtail-config.yaml"
+
+# - name: Execute promtail
+#   win_shell: promtail-windows-386.exe --config.file=promtail-config.yaml &
+#   args:
+#     executable: cmd
+#     chdir: "{{ win_main_dir }}\\{{ win_exporter_dir_name }}"
